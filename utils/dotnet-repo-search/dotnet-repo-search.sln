@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-repo-search", "dotnet-repo-search.csproj", "{A8145259-7126-4530-BBB9-6825D13B2FB4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8145259-7126-4530-BBB9-6825D13B2FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8145259-7126-4530-BBB9-6825D13B2FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8145259-7126-4530-BBB9-6825D13B2FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8145259-7126-4530-BBB9-6825D13B2FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A5A4FA0-3C37-46F3-97AA-C3C732101893}
+	EndGlobalSection
+EndGlobal
