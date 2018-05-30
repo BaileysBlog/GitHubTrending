@@ -4,8 +4,8 @@ import { HomeScreenComponent } from './home-screen/home-screen.component';
 
 const routes: Routes =
   [
-    { path: 'home', component: HomeScreenComponent },
-    { path: '**', redirectTo: 'home'}
+    { path: '', component: HomeScreenComponent },
+    { path: '**', redirectTo: ''}
   ];
 
 @NgModule({
