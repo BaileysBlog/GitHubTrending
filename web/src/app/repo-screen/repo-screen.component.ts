@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { RepoSearchService } from '../Services/repo-search.service';
+import { TrendingRepo } from '../Models/trending-repo.model';
 
 @Component({
   selector: 'repo-screen',
@@ -10,6 +12,7 @@ import { switchMap } from 'rxjs/operators';
 export class RepoScreenComponent implements OnInit
 {
   
+  _RepoData: TrendingRepo;
   Loading: boolean = true;
 
   Owner: string;
@@ -22,21 +25,30 @@ export class RepoScreenComponent implements OnInit
     { title: 'Contributors', cols: 1, rows: 1 }
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router,)
+  constructor(private route: ActivatedRoute, private router: Router,private repoApi: RepoSearchService)
   { 
 
   }
 
   ngOnInit()
   { 
-    setTimeout(() => {
-      this.Loading = false;
-    }, 5000);
-
     this.route.paramMap.subscribe((params) =>
     {
       this.Owner = params.get('owner');
       this.RepoTitle = params.get('repo');
+
+      this.repoApi.SearchRepo(this.Owner, this.RepoTitle).subscribe(x =>
+      {
+        if (x == null)
+        {
+          this.router.navigate([""]);
+        } else
+        { 
+          this.Loading = false;
+          this._RepoData = x;
+        }  
+      });
+
     });
   }
 }

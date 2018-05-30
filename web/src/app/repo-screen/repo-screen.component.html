@@ -6,6 +6,9 @@
     <app-loading-wheel *ngIf="Loading"></app-loading-wheel>
   </div>
   <mat-grid-list *ngIf="!Loading" cols="2" rowHeight="350px">
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <p>Hello World</p>
+    </mat-grid-tile>
     <mat-grid-tile *ngFor="let card of cards" [colspan]="card.cols" [rowspan]="card.rows">
       <app-read-me [Title]=card.title></app-read-me>
     </mat-grid-tile>

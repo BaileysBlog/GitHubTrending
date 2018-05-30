@@ -9,6 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { CommonModule } from '@angular/common';
 import { UtilsModule } from './utils/utils.module';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
+import { ServiceProviderModule } from './Services/service-provider.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { AngularMaterialModule } from './angular-material/angular-material.modul
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
+    ServiceProviderModule,
     UtilsModule
   ],
   providers: [],
