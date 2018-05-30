@@ -5,9 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeScreenComponent } from './home-screen/home-screen.component';
-import { MatGridListModule, MatCardModule, MatMenuModule, MatIconModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatListModule } from '@angular/material';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { LayoutModule } from '@angular/cdk/layout';
+import { CommonModule } from '@angular/common';
+import { UtilsModule } from './utils/utils.module';
+import { AngularMaterialModule } from './angular-material/angular-material.module';
 
 @NgModule({
   declarations: [
@@ -19,15 +20,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule
+    AngularMaterialModule,
+    UtilsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

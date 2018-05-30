@@ -13,7 +13,9 @@ export class NavMenuComponent {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
-    );
+  );
+  
+  topics = ['C','C#'];
     
   constructor(private breakpointObserver: BreakpointObserver) {}
   
