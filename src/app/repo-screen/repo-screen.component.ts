@@ -10,6 +10,8 @@ import { switchMap } from 'rxjs/operators';
 export class RepoScreenComponent implements OnInit
 {
   
+  Loading: boolean = true;
+
   Owner: string;
   RepoTitle: string;
 
@@ -27,6 +29,10 @@ export class RepoScreenComponent implements OnInit
 
   ngOnInit()
   { 
+    setTimeout(() => {
+      this.Loading = false;
+    }, 5000);
+
     this.route.paramMap.subscribe((params) =>
     {
       this.Owner = params.get('owner');

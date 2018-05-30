@@ -1,5 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
+  <mat-sidenav [ngClass]="{ 'handSetWidth': (isHandset$ | async)}"
     #drawer
     class="sidenav"
     fixedInViewport="true"

@@ -1,13 +1,13 @@
 <div class="grid-container">
   <h1 class="mat-h1">
-    <a href="https://www.github.com" target="_blank">{{Owner}}/{{RepoTitle}}</a>
+    <a href="https://www.github.com/{{Owner}}/{{RepoTitle}}" target="_blank">{{Owner}}/{{RepoTitle}}</a>
   </h1>
-  <mat-grid-list cols="2" rowHeight="350px">
+  <div class="text-center">
+    <app-loading-wheel *ngIf="Loading"></app-loading-wheel>
+  </div>
+  <mat-grid-list *ngIf="!Loading" cols="2" rowHeight="350px">
     <mat-grid-tile *ngFor="let card of cards" [colspan]="card.cols" [rowspan]="card.rows">
       <app-read-me [Title]=card.title></app-read-me>
     </mat-grid-tile>
   </mat-grid-list>
-</div>
-<div>
-
 </div>
