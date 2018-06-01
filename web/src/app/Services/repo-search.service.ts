@@ -12,12 +12,18 @@ export class RepoSearchService {
 
   constructor(private web: HttpClient) { }
 
-  public SearchRepo(OwnerName: string, RepoName: string): Observable<TrendingRepo>
+
+  public GetTrending(Period: string, Language: string): Observable<TrendingRepo[]>
+  {
+    return this.web.get<TrendingRepo[]>(`http://localhost:9832/api/repo/trending?Period=${Period}&Language=${Language}`);
+  }
+
+  public SearchRepo(OwnerName: string, RepoName: string)//: Observable<TrendingRepo>
   { 
-    var thing = this.web.get<TrendingRepo[]>("/assets/Trending.json").pipe(map(x =>
+    /* var thing = this.web.get<TrendingRepo[]>("http://localhost:9832/api/repo/trending").pipe(map(x =>
     {
-      return x.filter(y => y.RepoOwner == OwnerName && y.RepoTitle == RepoName);
+      return x.filter(y => y.repoOwner == OwnerName && y.repoTitle == RepoName);
     }), map(x => { if (x.length == 0) { return null } else { return x[0] } }), share());
-    return thing;
+    return thing; */
   }
 }

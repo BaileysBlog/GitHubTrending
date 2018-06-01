@@ -1,10 +1,10 @@
 export class TrendingRepo
 {
-    public RepoOwner: string;
-    public RepoTitle: string;
-    public RepoDescription: string;
-    public Language: string;
-    public StarsToday: number;
-    public Stars: number;
-    public Forks: number;
+    public repoOwner: string;
+    public repoTitle: string;
+    public repoDescription: string;
+    public language: string;
+    public starsToday: number;
+    public stars: number;
+    public forks: number;
 }

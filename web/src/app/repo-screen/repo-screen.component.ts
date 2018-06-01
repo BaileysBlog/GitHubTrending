@@ -27,7 +27,7 @@ export class RepoScreenComponent implements OnInit
 
   constructor(private route: ActivatedRoute, private router: Router,private repoApi: RepoSearchService)
   { 
-
+    
   }
 
   ngOnInit()
@@ -36,19 +36,6 @@ export class RepoScreenComponent implements OnInit
     {
       this.Owner = params.get('owner');
       this.RepoTitle = params.get('repo');
-
-      this.repoApi.SearchRepo(this.Owner, this.RepoTitle).subscribe(x =>
-      {
-        if (x == null)
-        {
-          this.router.navigate([""]);
-        } else
-        { 
-          this.Loading = false;
-          this._RepoData = x;
-        }  
-      });
-
     });
   }
 }

@@ -16,6 +16,13 @@ namespace GitTrendingApi.Controllers
     public class RepoController : Controller
     {
 
+        [Route("Search")]
+        public async Task<object> SearchRepo([FromRoute]string Owner, [FromRoute]string Repo)
+        {
+
+            return null;
+        }
+
         [Route("Trending")]
         public async Task<IEnumerable<TrendingRepo>> GetTrending([FromQuery]string Period = "daily", [FromQuery]string Language = "")
         {
