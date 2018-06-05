@@ -6,18 +6,19 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="!(isHandset$ | async)">
-    <mat-toolbar color="primary">Menu</mat-toolbar>
-    <mat-nav-list>
+    <mat-toolbar color="primary">{{navService.ShowTopics ? 'Topics' : 'Profile'}}</mat-toolbar>
+    <mat-nav-list *ngIf="navService.ShowTopics">
       <a mat-list-item *ngFor="let topic of trendingApi._Topics; let i = index;" (click)="trendingApi.ChangeTopics(i)">{{topic}}</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <button
+        #toggler
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()"
+        (click)="drawer.toggle();"
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>

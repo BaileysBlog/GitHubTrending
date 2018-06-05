@@ -30,7 +30,6 @@ export class RepoSearchService {
     if (this._CurrentTopic != index)
     { 
       this._TopicChanged.next();
-      console.log("Changed Topics ", index);
       this._TrendingRepos = [];
       if (index != 0)
       {
