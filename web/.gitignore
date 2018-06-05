@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/git-trending-win32-x64
 
 # dependencies
 /node_modules
