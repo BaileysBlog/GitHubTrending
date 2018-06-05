@@ -36,6 +36,8 @@ export class RepoScreenComponent implements OnInit
     {
       this.Owner = params.get('owner');
       this.RepoTitle = params.get('repo');
+
+      this.Loading = false;
     });
   }
 }

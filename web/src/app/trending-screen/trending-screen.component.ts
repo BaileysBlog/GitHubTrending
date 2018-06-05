@@ -10,25 +10,30 @@ import { map } from 'rxjs/operators';
 })
 export class TrendingScreenComponent {
   
-  Cards:any = [];
+  Cards: any = [];
+  Loading: boolean = false;
 
   constructor(private trendingApi: RepoSearchService)
   { 
+    this.trendingApi.TopicChanged.subscribe(x=>this.Loading = true);
+    this.trendingApi.TrendingChanged.subscribe(x => {this.GetTrendingCards();});
     this.GetTrendingCards();
   }
 
   public GetTrendingCards()
   { 
-    this.trendingApi.GetTrending('daily', '').pipe(map(x =>
+    this.Loading = true;
+    this.trendingApi.GetTrending('daily').pipe(map(x =>
     {
       var newArray:any[] = [];
       x.forEach(repo => {
-        newArray.push({ title: `${repo.repoOwner}/${repo.repoTitle}`, cols: 1, rows: 1})
+        newArray.push({ title: `${repo.repoOwner}/${repo.repoTitle}`, repoData: repo, cols: 1, rows: 1})
       });
       return newArray;
     })).subscribe(x =>
     {
       this.Cards = x;
+      this.Loading = false;
      });
   }
 }

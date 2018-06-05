@@ -1,24 +1,11 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="3" rowHeight="350px">
+  <h1 class="mat-h1">xx Repos</h1>
+  <div class="text-center" *ngIf="Loading">
+    <app-loading-wheel></app-loading-wheel>
+  </div>
+  <mat-grid-list *ngIf="!Loading" cols="3" rowHeight="150px">
     <mat-grid-tile *ngFor="let card of Cards" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Star</button>
-              <button mat-menu-item>Bookmark</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Repo Content Here</div>
-        </mat-card-content>
-      </mat-card>
+      <app-repo-preview [RepoData]="card.repoData"></app-repo-preview>
     </mat-grid-tile>
   </mat-grid-list>
 </div>
