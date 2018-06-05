@@ -12,6 +12,8 @@ function createWindow() {
     });
 
     win.setMenu(null);
+    win.setTitle("Git Trending");
+    
 
 
     win.loadURL(`file://${__dirname}/dist/index.html`);

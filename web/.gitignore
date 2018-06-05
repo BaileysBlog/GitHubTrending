@@ -4,7 +4,7 @@
 /dist
 /tmp
 /out-tsc
-/material-quick-start-dashboard-win32-x64
+/git-trending-win32-x64
 
 # dependencies
 /node_modules
