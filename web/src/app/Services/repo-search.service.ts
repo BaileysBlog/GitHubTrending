@@ -3,6 +3,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { map,filter,share } from "rxjs/operators";
 import { HttpClient } from '@angular/common/http';
 import { TrendingRepo } from '../Models/trending-repo.model';
+import { ElectronService } from 'ngx-electron';
 
 
 @Injectable({
@@ -19,7 +20,7 @@ export class RepoSearchService {
   public TopicChanged: Observable<null>;
 
 
-  constructor(private web: HttpClient)
+  constructor(private web: HttpClient,private electron: ElectronService)
   {
     this.TrendingChanged = this._TrendingChanged.asObservable();
     this.TopicChanged = this._TopicChanged.asObservable();
@@ -58,7 +59,7 @@ export class RepoSearchService {
     { 
       var trendingRepoApi = this.web.get<TrendingRepo[]>(`http://localhost:9832/api/repo/trending?Period=${Period}&Language=${encodeURIComponent(Language)}`).pipe(share());
 
-      trendingRepoApi.subscribe(x => { this._TrendingRepos = x; this._TrendingChanged.next(); });
+      trendingRepoApi.subscribe(x => { this._TrendingRepos = x; this._TrendingChanged.next();});
 
       return trendingRepoApi;
     }  
@@ -66,10 +67,6 @@ export class RepoSearchService {
 
   public SearchRepo(OwnerName: string, RepoName: string)//: Observable<TrendingRepo>
   { 
-    /* var thing = this.web.get<TrendingRepo[]>("http://localhost:9832/api/repo/trending").pipe(map(x =>
-    {
-      return x.filter(y => y.repoOwner == OwnerName && y.repoTitle == RepoName);
-    }), map(x => { if (x.length == 0) { return null } else { return x[0] } }), share());
-    return thing; */
+    
   }
 }

@@ -1,4 +1,7 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
+
+
+var fs = require('fs'); 
 
 let win;
 
@@ -13,13 +16,12 @@ function createWindow() {
 
     win.setMenu(null);
     win.setTitle("Git Trending");
-    
 
 
     win.loadURL(`file://${__dirname}/dist/index.html`);
 
-    //// uncomment below to open the DevTools.
-    // win.webContents.openDevTools()
+    //// un-comment below to open the DevTools.
+    win.webContents.openDevTools()
 
     // Event when the window is closed.
     win.on('closed', function () {
@@ -27,7 +29,7 @@ function createWindow() {
     });
 }
 
-// Create window on electron intialization
+// Create window on electron initialization
 app.on('ready', createWindow);
     
 // Quit when all windows are closed.
@@ -44,4 +46,13 @@ app.on('activate', function () {
     if (win === null) {
         createWindow()
     }
-})
+});
+
+
+
+const ipc = require('electron').ipcMain;
+
+ipc.on('write-to-file', function (event,msg)
+{
+    fs.writeFile('C:/Users/Bailey Miller/Desktop/Test.txt', msg, (error) => { win.webContents.send('file-status', 'Failed') }, (callback) => { win.webContents.send('file-status', 'Good') });
+});

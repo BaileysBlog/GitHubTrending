@@ -12,7 +12,7 @@ import { AngularMaterialModule } from './angular-material/angular-material.modul
 import { ServiceProviderModule } from './Services/service-provider.module';
 import { TrendingScreenComponent } from './trending-screen/trending-screen.component';
 import { MatGridListModule, MatCardModule, MatMenuModule, MatIconModule, MatButtonModule } from '@angular/material';
-
+import { NgxElectronModule } from 'ngx-electron';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +24,7 @@ import { MatGridListModule, MatCardModule, MatMenuModule, MatIconModule, MatButt
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    NgxElectronModule,
     AngularMaterialModule,
     ServiceProviderModule,
     UtilsModule,

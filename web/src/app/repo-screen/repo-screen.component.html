@@ -1,6 +1,6 @@
 <div class="grid-container">
   <h1 class="mat-h1">
-    <a href="https://www.github.com/{{Owner}}/{{RepoTitle}}" target="_blank">{{Owner}}/{{RepoTitle}}</a>
+    <a (click)="LaunchGitHubPage()" class="Clickable" target="_blank">{{Owner}}/{{RepoTitle}}</a>
   </h1>
   <div class="text-center">
     <app-loading-wheel *ngIf="Loading"></app-loading-wheel>
