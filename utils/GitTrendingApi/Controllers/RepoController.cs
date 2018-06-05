@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using GitTrendingApi.Models;
 using GitTrendingApi.Utils;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GitTrendingApi.Controllers
 {
@@ -20,8 +22,61 @@ namespace GitTrendingApi.Controllers
         [Route("Search")]
         public async Task<object> SearchRepo([FromRoute]string Owner, [FromRoute]string Repo)
         {
-
             return null;
+        }
+
+        [Route("Markdown")]
+        [Produces("text/plain")]
+        public async Task<String> GetReadMe([FromQuery]string Owner, [FromQuery]string Repo, [FromQuery]string Branch="master")
+        {
+            using (var web = new HttpClient())
+            {
+                web.DefaultRequestHeaders.Add("User-Agent", "BaileyMillerSSI");
+
+                var link = $"https://raw.githubusercontent.com/{Owner}/{Repo}/{Branch.ToLower()}/readme";
+
+                var result = await web.GetAsync(link+".md");
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return await ProcessMarkdown(result, Owner, Repo, web);
+                }
+                else
+                {
+                    result = await web.GetAsync(link +".rst");
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return await ProcessMarkdown(result, Owner, Repo, web);
+                    }
+                    else
+                    {
+                        return "Failed";
+                    }
+                }
+            }
+        }
+
+        private async Task<String> ProcessMarkdown(HttpResponseMessage result, string Owner, String Repo, HttpClient web)
+        {
+            var text = await result.Content.ReadAsStringAsync();
+
+            var content = new StringContent(JsonConvert.SerializeObject(new MarkdownRequest()
+            {
+                text = text,
+                mode = "gfm",
+                context = $"{Owner}/{Repo}"
+            }), Encoding.UTF8, "application/json");
+
+            var data = await web.PostAsync("https://api.github.com/markdown", content);
+
+            if (data.IsSuccessStatusCode)
+            {
+                return await data.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                return "Failed";
+            }
         }
 
         [Route("Trending")]
