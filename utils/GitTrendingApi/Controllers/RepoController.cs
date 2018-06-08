@@ -19,63 +19,41 @@ namespace GitTrendingApi.Controllers
     public class RepoController : Controller
     {
 
+        static HttpClient Web = new HttpClient();
+
         [Route("Search")]
-        public async Task<object> SearchRepo([FromRoute]string Owner, [FromRoute]string Repo)
+        public async Task<Repo> SearchRepo([FromQuery]string Owner, [FromQuery]string Repo)
         {
-            return null;
+            return await RepoUtil.GetRepoAsync(Owner, Repo);
         }
 
-        [Route("Markdown")]
-        [Produces("text/plain")]
-        public async Task<String> GetReadMe([FromQuery]string Owner, [FromQuery]string Repo, [FromQuery]string Branch="master")
+        [Route("ReadMe")]
+        public async Task<ReadMeResponse> GetReadMe([FromQuery]string Owner, [FromQuery]string Repo, [FromQuery]ReadMeFormat Format = ReadMeFormat.Markdown)
         {
-            using (var web = new HttpClient())
+            var readme = await RepoUtil.GetReadMeAsync(Owner, Repo);
+
+            if (readme != null)
             {
-                web.DefaultRequestHeaders.Add("User-Agent", "BaileyMillerSSI");
 
-                var link = $"https://raw.githubusercontent.com/{Owner}/{Repo}/{Branch.ToLower()}/readme";
-
-                var result = await web.GetAsync(link+".md");
-
-                if (result.IsSuccessStatusCode)
+                switch (Format)
                 {
-                    return await ProcessMarkdown(result, Owner, Repo, web);
+                    case ReadMeFormat.Markdown:
+                        {
+                            return new ReadMeResponse() { Content = readme.GetContent(), Format = Format };
+                        }
+                    case ReadMeFormat.Html:
+                        {
+                            return new ReadMeResponse() { Content = await readme.GetHtmlAsync(), Format = Format };
+                        }
+                    default:
+                        {
+                            return null;
+                        }
                 }
-                else
-                {
-                    result = await web.GetAsync(link +".rst");
-                    if (result.IsSuccessStatusCode)
-                    {
-                        return await ProcessMarkdown(result, Owner, Repo, web);
-                    }
-                    else
-                    {
-                        return "Failed";
-                    }
-                }
-            }
-        }
-
-        private async Task<String> ProcessMarkdown(HttpResponseMessage result, string Owner, String Repo, HttpClient web)
-        {
-            var text = await result.Content.ReadAsStringAsync();
-
-            var content = new StringContent(JsonConvert.SerializeObject(new MarkdownRequest()
-            {
-                text = text,
-                mode = "gfm",
-                context = $"{Owner}/{Repo}"
-            }), Encoding.UTF8, "application/json");
-
-            var data = await web.PostAsync("https://api.github.com/markdown", content);
-
-            if (data.IsSuccessStatusCode)
-            {
-                return await data.Content.ReadAsStringAsync();
             }
             else
             {
-                return "Failed";
+                return null;
             }
         }
 
@@ -83,10 +61,10 @@ namespace GitTrendingApi.Controllers
         public async Task<IEnumerable<TrendingRepo>> GetTrending([FromQuery]string Period = "daily", [FromQuery]string Language = "")
         {
             List<TrendingRepo> Repos = new List<TrendingRepo>();
-            using (var web = new HttpClient())
+            using (var Web = new HttpClient())
             {
                 
-                var result = await web.GetAsync(TrendingReposUtil.GetUrl(Period, Language));
+                var result = await Web.GetAsync(TrendingReposUtil.GetUrl(Period, Language));
 
                 if (result.IsSuccessStatusCode)
                 {

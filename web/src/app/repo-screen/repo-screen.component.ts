@@ -4,6 +4,7 @@ import { switchMap } from 'rxjs/operators';
 import { RepoSearchService } from '../Services/repo-search.service';
 import { TrendingRepo } from '../Models/trending-repo.model';
 import { ElectronService } from 'ngx-electron';
+import { Repo } from '../Models/Repo.model';
 
 
 
@@ -16,7 +17,7 @@ import { ElectronService } from 'ngx-electron';
 export class RepoScreenComponent implements OnInit
 {
   
-  _RepoData: TrendingRepo;
+  _RepoData: Repo;
   Loading: boolean = true;
 
   Owner: string;
@@ -41,7 +42,12 @@ export class RepoScreenComponent implements OnInit
       this.Owner = params.get('owner');
       this.RepoTitle = params.get('repo');
 
-      this.Loading = false;
+      this.repoApi.SearchRepo(this.Owner, this.RepoTitle).subscribe(data =>
+      {
+        this._RepoData = data;
+        this.Loading = false;
+        
+      });
     });
   }
 

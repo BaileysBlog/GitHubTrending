@@ -4,6 +4,9 @@ import { map,filter,share } from "rxjs/operators";
 import { HttpClient } from '@angular/common/http';
 import { TrendingRepo } from '../Models/trending-repo.model';
 import { ElectronService } from 'ngx-electron';
+import { Repo } from '../Models/Repo.model';
+import { ReadMeFormat } from '../Models/readme.format.model';
+import { ReadMeResponse } from '../Models/ReadMeResponse.model';
 
 
 @Injectable({
@@ -65,8 +68,18 @@ export class RepoSearchService {
     }  
   }
 
-  public SearchRepo(OwnerName: string, RepoName: string)//: Observable<TrendingRepo>
+  public SearchRepo(OwnerName: string, RepoName: string) : Observable<Repo>
   { 
-    
+    return this.web.get<Repo>(`http://localhost:9832/api/repo/search?Owner=${OwnerName}&Repo=${RepoName}`);
+  }
+
+  public LoadMarkdownFromUrl(url: string): Observable<ReadMeResponse>
+  { 
+    return this.web.get<ReadMeResponse>(url);
+  }
+
+  public GetMarkdown(owner: string, repo: string, format: ReadMeFormat): Observable<ReadMeResponse>
+  { 
+    return this.web.get<ReadMeResponse>(`http://localhost:9832/api/repo/readme?Owner=${owner}&Repo=${repo}&format=${format}`)
   }
 }
