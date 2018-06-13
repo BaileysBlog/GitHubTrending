@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using GitTrendingApi.Models;
@@ -27,6 +28,31 @@ namespace GitTrendingApi.Controllers
             return await RepoUtil.GetRepoAsync(Owner, Repo);
         }
 
+        [Route("ReadMe/Download")]
+        
+        public async Task<IActionResult> DownloadReadMe([FromQuery]string Owner, [FromQuery]string Repo, [FromQuery]ReadMeFormat Format = ReadMeFormat.Markdown)
+        {
+            var readme = await GetReadMe(Owner, Repo, Format);
+
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            
+            switch (Format)
+            {
+                case ReadMeFormat.Markdown:
+                    {
+
+                        return File(Encoding.UTF8.GetBytes(readme.Content), "application/octet-stream", $"{Owner}-{Repo}.README.md");
+                        
+                    }
+                case ReadMeFormat.Html:
+                    {
+                        return File(Encoding.UTF8.GetBytes(readme.Content), "application/octet-stream", $"{Owner}-{Repo}.README.html");
+                    }
+                default:
+                    return null;
+            }
+        }
+
         [Route("ReadMe")]
         public async Task<ReadMeResponse> GetReadMe([FromQuery]string Owner, [FromQuery]string Repo, [FromQuery]ReadMeFormat Format = ReadMeFormat.Markdown)
         {
@@ -39,11 +65,11 @@ namespace GitTrendingApi.Controllers
                 {
                     case ReadMeFormat.Markdown:
                         {
-                            return new ReadMeResponse() { Content = readme.GetContent(), Format = Format };
+                            return new ReadMeResponse() { Content = readme.GetContent(), Format = Format, Owner=Owner, Repo=Repo };
                         }
                     case ReadMeFormat.Html:
                         {
-                            return new ReadMeResponse() { Content = await readme.GetHtmlAsync(), Format = Format };
+                            return new ReadMeResponse() { Content = await readme.GetHtmlAsync(), Format = Format, Owner = Owner, Repo = Repo };
                         }
                     default:
                         {

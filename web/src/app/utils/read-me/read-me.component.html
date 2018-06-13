@@ -6,13 +6,14 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item>Copy</button>
-        <button mat-menu-item>Download</button>
+        <button mat-menu-item>View Full Screen</button>
+        <button mat-menu-item (click)="TriggerDownload(1)">Download HTML</button>
+        <button mat-menu-item (click)="TriggerDownload(0)">Download MD</button>
       </mat-menu>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="dashboard-card-content">
     <app-loading-wheel *ngIf="Loading"></app-loading-wheel>
-    {{Content}}
+    <div [innerHtml]="ReadMeHtml | sanitizeHtml" class="file"></div>
   </mat-card-content>
 </mat-card>

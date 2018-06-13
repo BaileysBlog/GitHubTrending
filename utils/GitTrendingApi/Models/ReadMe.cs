@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GitTrendingApi.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace GitTrendingApi.Models
 
         static ReadMe()
         {
-            Web.DefaultRequestHeaders.Add("User-Agent", "BaileyMillerSSI");
+            Web.DefaultRequestHeaders.Add("User-Agent", Program.UserAgent);
         }
 
         public int size { get; set; }
@@ -25,7 +26,7 @@ namespace GitTrendingApi.Models
 
         public string Owner { get; set; }
         public string Repo { get; set; }
-
+        
 
         public String content { get; set; }
 
@@ -43,16 +44,23 @@ namespace GitTrendingApi.Models
                 context = $"{Owner}/{Repo}"
             }), Encoding.UTF8, "application/json");
 
-            var data = await Web.PostAsync("https://api.github.com/markdown", content);
+            var data = await Web.PostAsync("https://api.github.com/markdown" + RepoUtil.GetAuthQuery(), content);
 
             if (data.IsSuccessStatusCode)
             {
-                return await data.Content.ReadAsStringAsync();
+                var html = await data.Content.ReadAsStringAsync();
+                return await ProcessHtmlForView(html);
+
             }
             else
             {
                 return String.Empty;
             }
+        }
+
+        private async Task<String> ProcessHtmlForView(String html)
+        {
+            return html;
         }
     }
 }

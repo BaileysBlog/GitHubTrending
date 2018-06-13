@@ -15,12 +15,12 @@ namespace GitTrendingApi.Utils
 
         static RepoUtil()
         {
-            Web.DefaultRequestHeaders.Add("User-Agent", "BaileyMillerSSI");
+            Web.DefaultRequestHeaders.Add("User-Agent", Program.UserAgent);
         }
 
         public async static Task<Repo> GetRepoAsync(string owner, string repo)
         {
-            var result = await Web.GetAsync($"https://api.github.com/repos/{owner}/{repo}");
+            var result = await Web.GetAsync($"https://api.github.com/repos/{owner}/{repo}" + GetAuthQuery());
 
             if (result.IsSuccessStatusCode)
             {
@@ -33,14 +33,19 @@ namespace GitTrendingApi.Utils
             }
         }
 
+        public static String GetAuthQuery()
+        {
+            return $"?client_id={Program.ClientId}&client_secret={Program.ClientSecret}";
+        }
 
         public async static Task<ReadMe> GetReadMeAsync(string owner, string repo)
         {
-            var result = await Web.GetAsync($"https://api.github.com/repos/{owner}/{repo}/readme");
+            var result = await Web.GetAsync($"https://api.github.com/repos/{owner}/{repo}/readme"+GetAuthQuery());
 
             if (result.IsSuccessStatusCode)
             {
                 var content = await result.Content.ReadAsStringAsync();
+                
 
                 var readme = JsonConvert.DeserializeObject<ReadMe>(content);
                 readme.Owner = owner;

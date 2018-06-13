@@ -6,6 +6,7 @@ import { LoadingWheelComponent } from './loading-wheel/loading-wheel.component';
 import { ServiceProviderModule } from '../Services/service-provider.module';
 import { RepoPreviewComponent } from './repo-preview/repo-preview.component';
 import { RouterModule } from '@angular/router';
+import { SanitizeHtmlPipe } from './Pipes/html-sanitize.pipe';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { RouterModule } from '@angular/router';
     AngularMaterialModule,
     ServiceProviderModule
   ],
-  declarations: [ReadMeComponent, LoadingWheelComponent, RepoPreviewComponent],
-  exports:[ReadMeComponent, LoadingWheelComponent, RepoPreviewComponent]
+  declarations: [ReadMeComponent, LoadingWheelComponent, RepoPreviewComponent, SanitizeHtmlPipe],
+  exports:[ReadMeComponent, LoadingWheelComponent, RepoPreviewComponent, SanitizeHtmlPipe]
 })
 export class UtilsModule { }

@@ -12,6 +12,12 @@ namespace GitTrendingApi
 {
     public class Program
     {
+
+        public static string UserAgent = "";
+
+        public static string ClientId = "";
+        public static string ClientSecret = "";
+
         public static void Main(string[] args)
         {
             BuildWebHost(args).Run();
